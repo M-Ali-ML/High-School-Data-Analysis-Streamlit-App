@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import pandas as pd
 
-@st.cache
+@st.cache_data
 def get_f1_data(exam_trial: str, df: pd.DataFrame):
     if exam_trial == "First Exam Trial":
         f1_target_col = "Percentage"
@@ -13,7 +13,7 @@ def get_f1_data(exam_trial: str, df: pd.DataFrame):
         f1_target_col = "Percentage_2nd"
     return df[["branch", "gender", f1_target_col]].groupby(["branch", "gender"], as_index=False).median(), f1_target_col
 
-@st.cache
+@st.cache_data
 def get_f2_data(exam_trial: str, df: pd.DataFrame):
     if exam_trial == "First Exam Trial":
         f2_mask = df["_merge"] == "left_only"
@@ -21,11 +21,11 @@ def get_f2_data(exam_trial: str, df: pd.DataFrame):
         f2_mask = (df["_merge"] == "right_only") | (df["_merge"] == "both")
     return data[f2_mask][["branch", "gender", "desk_no"]].groupby(["branch", "gender"], as_index=False).count().sort_values(["branch"])
 
-@st.cache
+@st.cache_data
 def get_f3_data(df: pd.DataFrame):
     return data[["status", "gender", "desk_no"]].groupby(["status", "gender"], as_index=False).count().rename({"desk_no": "total students"}, axis=1)
 
-@st.cache
+@st.cache_data
 def get_f4_data(exam_trial: str, branch: str, df: pd.DataFrame):
     if exam_trial == "First Exam Trial":
         target_cols = [*df.columns[7:24]]
