@@ -3,7 +3,7 @@ import plotly.express as px
 import streamlit as st
 import pandas as pd
 
-@st.cache
+@st.cache_data
 def get_f1_data(df: pd.DataFrame):
     f1_data = df.drop_duplicates(subset=["desk_no"], keep="first") \
                 .groupby(["city"]) \
@@ -12,7 +12,7 @@ def get_f1_data(df: pd.DataFrame):
     city_sorter = {city:i for i,city in enumerate(f1_data.keys())}
     return f1_data, city_sorter
 
-@st.cache
+@st.cache_data
 def get_f2_data(df: pd.DataFrame, sort_by: str):
     f2_data = pd.DataFrame(
             df.drop_duplicates(subset=["school_name"], keep="first") \
@@ -23,7 +23,7 @@ def get_f2_data(df: pd.DataFrame, sort_by: str):
     f2_data.sort_values(["order"], inplace=True)
     return f2_data["value"]
 
-@st.cache
+@st.cache_data
 def get_f3_data(f1_data: pd.Series, f2_data: pd.Series):
     return f1_data / f2_data
 
